@@ -64,6 +64,11 @@ jobs:
         run: |
           source $HOME/.poetry/env
           poetry run pip install "Django==${{ matrix.django-version }}" --upgrade --force-reinstall
+      - name: Pip freeze
+        run: |
+          source $HOME/.poetry/env
+          echo $(pip freeze)
+          pip freeze
       - name: Run tests
         run: |
           source $HOME/.poetry/env
