@@ -72,6 +72,6 @@ jobs:
       - name: Run tests
         run: |
           source $HOME/.poetry/env
-          echo $(pip freeze)
+          poetry show
           poetry run pytest --cov=django_swagger_tester --verbose --assert=plain
           poetry run coverage report
