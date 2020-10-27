@@ -47,18 +47,18 @@ jobs:
         id: cached-poetry-dependencies
         uses: actions/cache@v2
         with:
-          path: $HOME/.poetry
+          path: $(poetry config virtualenvs.path)
           key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}-8
       - name: Install dependencies
         run: poetry install
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
       - name: Install django ${{ matrix.django-version }}
         run: |
-          source $HOME/.poetry/env
+          source $(echo $(poetry env use python) | sed 's/Using virtualenv: //g')/bin/activate
           echo "test"
           poetry run pip install "Django==${{ matrix.django-version }}" --upgrade --force-reinstall
       - name: Run tests
         run: |
-          source $HOME/.poetry/env
+          source $(echo $(poetry env use python) | sed 's/Using virtualenv: //g')/bin/activate
           poetry run pytest --cov=django_swagger_tester --verbose --assert=plain
           poetry run coverage report
