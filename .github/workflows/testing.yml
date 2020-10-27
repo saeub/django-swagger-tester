@@ -46,27 +46,27 @@ jobs:
         uses: sondrelg/install-poetry@v0.2.0
         with:
           virtualenvs-create: true
+          virtualenvs-in-project: true
       # cache whole venv, not wheels - this way we can skip installs next time
       - name: Set up cache
         id: cached-poetry-dependencies
         uses: actions/cache@v2
         with:
-          path: ~/.poetry/venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}-2
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
       # install dependencies with poetry *if* cache was invalidated
       - name: Install dependencies
         run: |
-          source $HOME/.poetry/env
+          source .venv/bin/activate
           poetry install
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
       # install specific matrix version of django - will otherwise default to 3+
       - name: Install django ${{ matrix.django-version }}
         run: |
-          source $HOME/.poetry/env
+          source .venv/bin/activate
           poetry run pip install "Django==${{ matrix.django-version }}" --upgrade --force-reinstall
       - name: Run tests
         run: |
-          source $HOME/.poetry/env
-          poetry run pip list
+          source .venv/bin/activate
           poetry run pytest --cov=django_swagger_tester --verbose --assert=plain
           poetry run coverage report
