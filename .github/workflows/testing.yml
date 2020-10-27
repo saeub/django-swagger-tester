@@ -51,7 +51,8 @@ jobs:
         run: |
           ls -la
           echo "-----------"
-          source ./.venv/bin/activate
+          poetry config --list
+          poetry config virtualenvs.in-project true
           poetry install
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
       # install specific matrix version of django - will otherwise default to 3+
