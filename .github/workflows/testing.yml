@@ -53,6 +53,7 @@ jobs:
       - name: Install django ${{ matrix.django-version }}
         run: |
           source $HOME/.poetry/env
+          echo "test"
           poetry run pip install "Django==${{ matrix.django-version }}" --upgrade --force-reinstall
       - name: Run tests
         run: |
