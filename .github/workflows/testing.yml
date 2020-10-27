@@ -51,7 +51,7 @@ jobs:
         id: cached-poetry-dependencies
         uses: actions/cache@v2
         with:
-          path: .venv
+          path: ~/.poetry/venv
           key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}-2
       # install dependencies with poetry *if* cache was invalidated
       - name: Install dependencies
