@@ -1,4 +1,8 @@
+import logging
+
+
 def test_cache_is_used_for_errors(client, transactional_db, caplog):
+    caplog.set_level(logging.INFO)
     client.get('/api/v1/cars/incorrect')
     client.get('/api/v1/cars/incorrect')
     assert (
@@ -8,6 +12,7 @@ def test_cache_is_used_for_errors(client, transactional_db, caplog):
 
 
 def test_cache_is_used_for_valid_responses(client, transactional_db, caplog):
+    caplog.set_level(logging.INFO)
     client.get('/api/v1/cars/correct')
     client.get('/api/v1/cars/correct')
     assert 'Found response hash in DB. Response already checked and is valid.' in caplog.messages

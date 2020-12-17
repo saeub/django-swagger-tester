@@ -1,3 +1,5 @@
+import logging
+
 from django.conf import settings as django_settings
 from django.core.exceptions import ImproperlyConfigured
 
@@ -27,10 +29,12 @@ def test_debug_false(client, caplog, monkeypatch):
 
 
 def test_bad_path(client, caplog):
+    caplog.set_level(logging.DEBUG)
     client.get('/api/v1/cars/corrects')
     assert 'Validation skipped - GET request to /api/v1/cars/corrects failed to resolve' in caplog.messages
 
 
 def test_non_existent_class_method(client, caplog):
+    caplog.set_level(logging.DEBUG)
     client.options('/api/v1/cars/correct')
     assert 'OPTIONS request method does not exist in the view class' in caplog.messages

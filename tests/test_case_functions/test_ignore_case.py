@@ -1,3 +1,5 @@
+import logging
+
 from django_swagger_tester.testing import validate_response
 
 
@@ -5,6 +7,7 @@ def test_endpoints_dynamic_schema(client, caplog, transactional_db) -> None:  # 
     """
     Asserts that the validate_response function validates correct schemas successfully.
     """
+    caplog.set_level(logging.DEBUG)
     response = client.get('/api/v1/trucks/correct')
     validate_response(
         response=response, method='GET', route='/api/v1/trucks/correct/', ignore_case=['name', 'width', 'height']

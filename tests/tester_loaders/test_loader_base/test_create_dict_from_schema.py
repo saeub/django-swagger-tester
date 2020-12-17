@@ -1,3 +1,5 @@
+import logging
+
 from copy import deepcopy
 
 from django.conf import settings
@@ -51,6 +53,7 @@ def test_iterate_schema_dict(caplog):
     """
     Tests that we're parsing schema objects correctly.
     """
+    caplog.set_level(logging.WARNING)
     i = {'type': 'object', 'properties': {'this is a': {'type': 'string', 'example': 'test'}}}
     assert base._iterate_schema_dict(i) == {'this is a': 'test'}
 
@@ -76,6 +79,7 @@ def test_iterate_schema_list(caplog):
     """
     Tests that we're parsing schema arrays correctly.
     """
+    caplog.set_level(logging.WARNING)
     assert base._iterate_schema_list({'type': 'array', 'items': {'type': 'string', 'example': 'test'}}) == ['test']
 
     i = {'type': 'array', 'items': {'type': 'array', 'items': {'type': 'string', 'example': 'test'}}}

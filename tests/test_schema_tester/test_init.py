@@ -1,3 +1,5 @@
+import logging
+
 from django.core.exceptions import ImproperlyConfigured
 
 import pytest
@@ -20,6 +22,7 @@ def test_calls(caplog):
     """
     Make sure each type of object is passed to where it should.
     """
+    caplog.set_level(logging.DEBUG)
     SchemaTester({'type': 'array', 'items': {}}, [], lambda x, y: None, origin='test')
     assert 'init --> list' == caplog.records[-1].message
 

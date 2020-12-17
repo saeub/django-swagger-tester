@@ -2,6 +2,8 @@
 Requests in these tests should not be handled by the middleware.
 """
 
+import logging
+
 from django.conf import settings as django_settings
 
 from tests.utils import patch_response_validation_middleware_settings
@@ -10,6 +12,7 @@ from django_swagger_tester.configuration import SwaggerTesterSettings
 
 
 def test_exempt_url(client, caplog, monkeypatch):
+    caplog.set_level(logging.DEBUG)
     monkeypatch.setattr(
         django_settings,
         'SWAGGER_TESTER',
@@ -30,6 +33,7 @@ def test_non_endpoint_options_request(client, caplog):
     """
     Makes sure these types of requests are *not* handled by the middleware.
     """
+    caplog.set_level(logging.DEBUG)
     for path in ['', 'test']:
         client.options(path)
         assert 'Validation skipped: `/%s` is not a relevant endpoint' % path in caplog.messages

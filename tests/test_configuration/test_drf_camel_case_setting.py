@@ -1,4 +1,6 @@
 # noqa: TYP001
+import logging
+
 from django.conf import settings as django_settings
 from django.core.exceptions import ImproperlyConfigured
 
@@ -20,6 +22,7 @@ def test_disable_camel_case(monkeypatch, caplog) -> None:
     """
     Make sure a warning log is output if CAMEL_CASE_PARSER is False, but the parser is found in the Django DRF settings.
     """
+    caplog.set_level(logging.WARNING)
     monkeypatch.setattr(django_settings, 'SWAGGER_TESTER', patch_settings('CAMEL_CASE_PARSER', False))
     SwaggerTesterSettings()
     assert (

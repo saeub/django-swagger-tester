@@ -1,3 +1,5 @@
+import logging
+
 import pytest
 from tests.types import list_type, object_type
 
@@ -111,6 +113,7 @@ def test_is_nullable():
 
 
 def test_index_schema(caplog):
+    caplog.set_level(logging.DEBUG)
     # Test normal indexing
     index_schema(schema=list_type, variable='items', error_addon=None)
     assert any('Indexing schema by `items`' in message for message in caplog.messages)

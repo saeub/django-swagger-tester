@@ -1,3 +1,5 @@
+import logging
+
 from django.conf import settings as django_settings
 from django.core.exceptions import ImproperlyConfigured
 
@@ -8,6 +10,7 @@ from django_swagger_tester.configuration import SwaggerTesterSettings
 
 
 def test_endpoint_in_exempt_but_status_code_is_not(client, caplog, monkeypatch):
+    caplog.set_level(logging.DEBUG)
     monkeypatch.setattr(
         django_settings,
         'SWAGGER_TESTER',
@@ -26,6 +29,7 @@ def test_endpoint_in_exempt_but_status_code_is_not(client, caplog, monkeypatch):
 
 
 def test_endpoint_in_exempt_and_status_code_is_too(client, caplog, monkeypatch):
+    caplog.set_level(logging.DEBUG)
     monkeypatch.setattr(
         django_settings,
         'SWAGGER_TESTER',
@@ -43,6 +47,7 @@ def test_endpoint_in_exempt_and_status_code_is_too(client, caplog, monkeypatch):
 
 
 def test_endpoint_in_exempt_and_wildcard_status_code(client, caplog, monkeypatch):
+    caplog.set_level(logging.DEBUG)
     monkeypatch.setattr(
         django_settings,
         'SWAGGER_TESTER',
@@ -76,6 +81,7 @@ def test_invalid_status_code(client, caplog, monkeypatch):
 
 
 def test_exempt_status_code(client, caplog, monkeypatch):
+    caplog.set_level(logging.DEBUG)
     monkeypatch.setattr(
         django_settings,
         'SWAGGER_TESTER',
